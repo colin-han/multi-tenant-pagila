@@ -1,0 +1,9 @@
+HOST=localhost
+PORT=5432
+USER=postgres
+PASSWORD=123456
+DATABASE=multi-tenant-pagila
+PGPASSWORD=$PASSWORD pg_dump -h $HOST -U $USER -d $DATABASE -s -f pagila-schema.sql
+PGPASSWORD=$PASSWORD pg_dump -h $HOST -U $USER -d $DATABASE -a -f pagila-data.sql
+PGPASSWORD=$PASSWORD pg_dump -h $HOST -U $USER -d $DATABASE -a --inserts -f pagila-insert-data.sql
+PGPASSWORD=$PASSWORD pg_dump -h $HOST -U $USER -d $DATABASE -a -Fc -f pagila-data-apt-jsonb.sql
