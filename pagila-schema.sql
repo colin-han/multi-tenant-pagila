@@ -382,6 +382,7 @@ ALTER SEQUENCE public.actor_actor_id_seq OWNER TO postgres;
 
 CREATE TABLE public.actor (
     actor_id integer DEFAULT nextval('public.actor_actor_id_seq'::regclass) NOT NULL,
+    tenant_id integer,
     first_name text NOT NULL,
     last_name text NOT NULL,
     last_update timestamp with time zone DEFAULT now() NOT NULL
@@ -1309,6 +1310,13 @@ ALTER TABLE ONLY public.tenant
 
 
 --
+-- Name: actor_tenant_id_index; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX actor_tenant_id_index ON public.actor USING btree (tenant_id);
+
+
+--
 -- Name: address_tenant_id_index; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1733,6 +1741,14 @@ CREATE TRIGGER last_updated BEFORE UPDATE ON public.staff FOR EACH ROW EXECUTE F
 --
 
 CREATE TRIGGER last_updated BEFORE UPDATE ON public.store FOR EACH ROW EXECUTE FUNCTION public.last_updated();
+
+
+--
+-- Name: actor actor_tenant_tenant_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.actor
+    ADD CONSTRAINT actor_tenant_tenant_id_fk FOREIGN KEY (tenant_id) REFERENCES public.tenant(tenant_id);
 
 
 --
